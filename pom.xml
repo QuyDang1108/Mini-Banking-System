@@ -170,8 +170,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <configLocation>/src/checkstyle/checkstyle.xml</configLocation>
-                    <suppressionsLocation>/src/checkstyle/suppressions.xml</suppressionsLocation>
+                    <configLocation>/checkstyle/checkstyle.xml</configLocation>
+                    <suppressionsLocation>/checkstyle/suppressions.xml</suppressionsLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <failOnViolation>true</failOnViolation>
