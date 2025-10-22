@@ -9,6 +9,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+---
 
 ## Giới thiệu
 
