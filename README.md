@@ -1,6 +1,6 @@
 # 🏦 Mini Banking System (Spring Boot & OracleDB)
 
-[![CI - Maven build & Quality](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml)
+[![CI - Maven build & Quality](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml/badge.svg?branch=main)](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=coverage)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
