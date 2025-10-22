@@ -1,7 +1,13 @@
 # 🏦 Mini Banking System (Spring Boot & OracleDB)
 
-[![CI Build Status](https://github.com/QuyDang1108/mini-banking-system/actions/workflows/ci.yml/badge.svg)](https://github.com/QuyDang1108/mini-banking-system/actions/workflows/ci.yml)
-[![SonarQube Quality Gate](https://img.shields.io/sonar/quality_gate/mini-banking-system?sonarHost=http%3A%2F%2Flocalhost%3A9000)](http://localhost:9000)
+[![CI - Maven build & Quality](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/QuyDang1108/Mini-Banking-System/actions/workflows/ci-pipeline.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=coverage)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=QuyDang1108_Mini-Banking-System&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=QuyDang1108_Mini-Banking-System)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Giới thiệu
@@ -84,11 +90,11 @@ vẹn dữ liệu (ACID) và xử lý đồng thời.
 ### ⚙️ Hệ thống & Kỹ thuật (Backend & System)
 
 * **Tác vụ Tự động (Scheduled Jobs/Cron):**
-    * Job-01/02: Tự động dọn dẹp dữ liệu rác (OTP, thông báo cũ).
-    * Job-03: Tự động gửi email nhắc nợ khi đến hạn.
-    * **(Nâng cao)** Job-04: Tự động quét và cập nhật trạng thái Nợ Quá Hạn (OVERDUE) cho các khoản vay (sử dụng Stored
+    * Tự động dọn dẹp dữ liệu rác (OTP, thông báo cũ).
+    * Tự động gửi email nhắc nợ khi đến hạn.
+    * **(Nâng cao)** Tự động quét và cập nhật trạng thái Nợ Quá Hạn (OVERDUE) cho các khoản vay (sử dụng Stored
       Procedure).
-    * **(Nâng cao)** Job-05: Tự động tính và cộng lãi tiết kiệm định kỳ hàng tháng (sử dụng Cursor và Transaction).
+    * **(Nâng cao)** Tự động tính và cộng lãi tiết kiệm định kỳ hàng tháng (sử dụng Cursor và Transaction).
 * **Kỹ thuật Nâng cao (Advanced Tech):**
     * Thông báo Real-time (WebSocket): Cấu hình server WebSocket (STOMP) để đẩy thông báo (VD: "Bạn vừa nhận được tiền")
       ngay lập tức về client.
@@ -115,9 +121,7 @@ vẹn dữ liệu (ACID) và xử lý đồng thời.
 
 ## 🧮 Mô hình Cơ sở dữ liệu (Database Schema)
 
-[Sơ đồ ERD của cơ sở dữ liệu]
-*(Hình ảnh mô hình Quan hệ Thực thể (ERD) sẽ được đặt tại đây)*
-
+![img.png](img.png)
 ---
 
 ## 🔐 Phân quyền người dùng (Roles & Permissions)
@@ -137,7 +141,7 @@ Hệ thống định nghĩa các vai trò (roles) sau để kiểm soát truy c�
 
 ### Yêu cầu tiên quyết (Prerequisites)
 
-* [Java JDK (phiên bản 21+)]()
+* [Java JDK (phiên bản 17+)](https://download.oracle.com/java/17/archive/jdk-17.0.12_windows-x64_bin.zip)
 * [Apache Maven]()
 * [Docker](https://www.docker.com/get-started) và [Docker Compose]()
 * (Tùy chọn) [SonarQube](https://www.sonarqube.org/downloads/) (để chạy phân tích cục bộ)
@@ -242,7 +246,7 @@ Báo cáo sẽ hiển thị các phát hiện tiềm ẩn, giúp đảm bảo an
 ### 🧱 CI/CD Pipeline (GitHub Actions)
 
 Hệ thống CI/CD được tự động hóa thông qua **GitHub Actions**, định nghĩa tại:
-`.github/workflows/ci.yml`
+`.github/workflows/ci-pipeline.yml`
 
 Pipeline sẽ **tự động kích hoạt** khi có **push** hoặc **pull request**, bao gồm các giai đoạn sau:
 
@@ -253,7 +257,6 @@ Pipeline sẽ **tự động kích hoạt** khi có **push** hoặc **pull reque
 | **JaCoCo Report**      | Sinh báo cáo độ bao phủ mã                              |
 | **SonarQube Analysis** | Phân tích chất lượng và bảo mật mã nguồn                |
 | **GitLeaks Scan**      | Quét phát hiện thông tin nhạy cảm                       |
-| **Docker Build**       | Đóng gói ứng dụng thành container để triển khai         |
 
 ---
 
@@ -279,7 +282,7 @@ src/
 ### 👨‍💻 Tác giả
 
 **Đặng Quý (QuyDang1108)**
-📧 Email: *[Cập nhật]*
+
 🔗 GitHub: [github.com/QuyDang1108](https://github.com/QuyDang1108)
 
 ---
