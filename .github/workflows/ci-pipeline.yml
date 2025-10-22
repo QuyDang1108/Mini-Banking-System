@@ -126,6 +126,7 @@ jobs:
 
       - name: Verify coverage ≥ 70%
         run: |
+          set -eo pipefail
           python3 - <<'EOF'
           import xml.etree.ElementTree as ET
           tree = ET.parse('target/site/jacoco/jacoco.xml')
