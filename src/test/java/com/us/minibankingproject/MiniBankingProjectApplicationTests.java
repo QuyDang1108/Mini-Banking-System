@@ -1,4 +1,4 @@
-package com.us.banking.minibankingproject;
+package com.us.minibankingproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

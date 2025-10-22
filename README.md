@@ -1,350 +1,292 @@
-# 🏦 Mini Banking System (Spring Boot Enterprise Edition)
+# 🏦 Mini Banking System (Spring Boot & OracleDB)
 
-## 📘 Giới thiệu
+[![CI Build Status](https://github.com/QuyDang1108/mini-banking-system/actions/workflows/ci.yml/badge.svg)](https://github.com/QuyDang1108/mini-banking-system/actions/workflows/ci.yml)
+[![SonarQube Quality Gate](https://img.shields.io/sonar/quality_gate/mini-banking-system?sonarHost=http%3A%2F%2Flocalhost%3A9000)](http://localhost:9000)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Mini Banking System** là một hệ thống ngân hàng mô phỏng cấp doanh nghiệp, được xây dựng trên nền tảng **Spring Boot** và tích hợp đầy đủ các thành phần hiện đại như **Docker**, **SonarQube**, **Checkstyle**, **GitLeaks**, **CI/CD**, **Swagger**, và **Oracle Database**.
-Dự án thể hiện quy trình phát triển phần mềm theo chuẩn công nghiệp — từ coding convention, phân tích chất lượng mã, đến tự động kiểm thử và triển khai.
+## Giới thiệu
 
----
+**Mini Banking System** là một dự án mô phỏng hệ thống ngân hàng full-stack, tập trung vào các nghiệp vụ thực tế như
+quản lý tài khoản, chuyển tiền, vay vốn và phát hiện gian lận, được xây dựng trên nền tảng Spring Boot và Oracle
+Database.
 
-## 🚀 Mục tiêu dự án
+Dự án được thiết kế nhằm thể hiện khả năng xây dựng, quản lý và triển khai một ứng dụng Enterprise Java hoàn chỉnh — bao
+gồm từ tầng nghiệp vụ, bảo mật, cơ sở dữ liệu, đến DevOps.
 
-* Xây dựng hệ thống ngân hàng mô phỏng với các phân hệ nghiệp vụ thực tế
-* Rèn luyện kiến thức chuyên sâu về **Spring Boot, bảo mật, transaction, microservice patterns, và DevOps**
-* Áp dụng **chuẩn Google Java Style Guide**, **SonarQube** để đảm bảo chất lượng mã
-* Triển khai CI/CD tự động qua **GitHub Actions** và đóng gói bằng **Docker**
-
----
-
-## ⚙️ Công nghệ và công cụ sử dụng
-
-| Công nghệ / Công cụ                     | Mục đích                                         |
-| --------------------------------------- | ------------------------------------------------ |
-| **Spring Boot 3.x**                     | Framework chính                                  |
-| **Spring Data JPA (Hibernate)**         | ORM và truy vấn dữ liệu                          |
-| **Spring Security (JWT)**               | Xác thực và phân quyền                           |
-| **Spring Mail / Async**                 | Gửi OTP, thông báo qua email                     |
-| **Spring Scheduler**                    | Tác vụ định kỳ (kiểm tra khoản vay, gian lận)    |
-| **Oracle Database**                     | Cơ sở dữ liệu quan hệ                            |
-| **MapStruct**                           | Mapping DTO ↔ Entity                             |
-| **Lombok**                              | Giảm boilerplate code                            |
-| **Swagger / OpenAPI 3**                 | Tài liệu REST API                                |
-| **JUnit 5 / Mockito**                   | Kiểm thử đơn vị                                  |
-| **JaCoCo**                              | Báo cáo độ bao phủ kiểm thử                      |
-| **Checkstyle (Google Java Convention)** | Chuẩn hóa coding style                           |
-| **SonarQube**                           | Phân tích chất lượng mã và phát hiện lỗi bảo mật |
-| **GitLeaks**                            | Kiểm tra rò rỉ thông tin nhạy cảm trong repo     |
-| **Docker / Docker Compose**             | Đóng gói và triển khai container                 |
-| **GitHub Actions**                      | CI/CD pipeline tự động                           |
-| **Postman / Swagger UI**                | Kiểm thử API thủ công                            |
+Hệ thống không chỉ dừng ở chức năng giao dịch cơ bản mà còn mở rộng với các phân hệ chuyên sâu như quản lý khoản vay, sổ
+tiết kiệm, phát hiện gian lận, ghi log – audit, và hệ thống thông báo. Mỗi phân hệ được triển khai theo hướng
+Domain-Driven Design (DDD), đảm bảo khả năng mở rộng, bảo trì và dễ dàng chuyển đổi sang microservice trong tương lai.
 
 ---
 
-## 🧩 Phân hệ chức năng
+### 📚 Mục lục Tổng quan
 
-### 🧍‍♂️ 1. **Account Service**
-
-Quản lý thông tin khách hàng và tài khoản ngân hàng.
-
-**Chức năng:**
-
-* Đăng ký / đăng nhập (JWT)
-* Tạo tài khoản ngân hàng tự động (sinh số tài khoản)
-* Xem số dư, cập nhật thông tin cá nhân
-* Admin có thể khóa / mở tài khoản
-
-**Entity chính:**
-
-```
-User(id, full_name, email, password, role, status)
-Account(id, account_number, balance, user_id, created_at, status)
-```
+1. [Giới thiệu](#giới-thiệu)
+2. [Tính năng chính](#tính-năng-chính)
+3. [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+4. [Cài đặt & Khởi chạy](#cài-đặt--khởi-chạy)
+5. [Tài liệu API](#tài-liệu-api)
+6. [Kiểm thử & Chất lượng mã](#unit-test--coverage-jacoco)
+7. [CI/CD Pipeline](#cicd-pipeline-github-actions)
+8. [Cấu trúc dự án](#cấu-trúc-thư-mục-project-structure)
+9. [Tác giả & Giấy phép](#tác-giả)
 
 ---
 
-### 💸 2. **Transaction Service**
+## 🚀 Tính năng chính (Key Features)
 
-Xử lý giao dịch, chuyển tiền, OTP và lịch sử giao dịch.
+Dự án là một hệ thống Mini-Banking Core API, mô phỏng các nghiệp vụ tài chính phức tạp, tập trung vào bảo mật, tính toàn
+vẹn dữ liệu (ACID) và xử lý đồng thời.
 
-**Chức năng:**
+### 🧑‍💻 Nghiệp vụ Khách hàng (User Features)
 
-* Chuyển tiền nội bộ
-* Gửi OTP xác thực qua email
-* Rollback tự động khi lỗi
-* Lịch sử giao dịch
+* **Xác thực & Bảo mật:**
+    * Đăng ký, Đăng nhập và Quản lý phiên (JWT Access/Refresh Token).
+    * Xác thực hai bước qua OTP (gửi bất đồng bộ qua Spring Mail).
+    * Bảo mật mật khẩu (Bcrypt) và các quy trình (Quên mật khẩu, Đổi mật khẩu).
+* **Quản lý Tài khoản (Account Management):**
+    * Quản lý đa tài khoản (Thanh toán, Tiết kiệm).
+    * Xem thông tin cá nhân, số dư và chi tiết tài khoản.
+* **Giao dịch & Chuyển tiền (Transactions):**
+    * **(Nâng cao)** Chuyển khoản nội bộ: Xử lý với độ tin cậy cao, sử dụng `Transaction` (ACID) và
+      `Pessimistic Locking` (SELECT...FOR UPDATE) để chống race-condition, đảm bảo số dư không bao giờ âm.
+    * Xem lịch sử giao dịch (có phân trang).
+* **Sản phẩm Tiền gửi (Savings):**
+    * **(Nâng cao)** Mở Sổ Tiết kiệm: Nghiệp vụ `Transaction` tự động trích tiền từ tài khoản chính để mở sổ mới.
+    * **(Nâng cao)** Tất toán Sổ Tiết kiệm: Nghiệp vụ `Transaction` tự động tính lãi (mô phỏng) và cộng dồn (gốc + lãi)
+      về tài khoản chính khi đóng sổ.
+* **Sản phẩm Tín dụng (Loan):**
+    * Nộp đơn đăng ký khoản vay.
+    * Theo dõi lịch sử và chi tiết khoản vay.
+    * **(Nâng cao)** Thanh toán nợ: Xử lý thanh toán hàng tháng qua `Transaction`, cập nhật số dư nợ và ghi log
+      `LoanPayment`.
+* **Hệ thống Thông báo (Notifications):**
+    * Nhận thông báo (biến động số dư, nhắc nợ, OTP...).
+    * Đánh dấu đã đọc và xem số lượng thông báo chưa đọc.
 
-**Entity:**
+### 🧑‍💼 Nghiệp vụ Quản trị (Admin Features)
 
-```
-Transaction(id, from_account_id, to_account_id, amount, type, status, created_at)
-OTP(id, code, email, expires_at, used)
-```
+* **Quản lý Người dùng:**
+    * Quản lý tập trung (tìm kiếm, phân trang).
+    * Thực hiện các hành động: Khóa / Mở khóa tài khoản người dùng.
+* **Quản lý Tín dụng (Loan Approval):**
+    * Theo dõi và lọc các đơn vay theo trạng thái (PENDING, APPROVED, REJECTED).
+    * Duyệt / Từ chối khoản vay.
+    * **(Nâng cao)** Giải ngân: Kích hoạt `Transaction` tự động cập nhật trạng thái `Loan` và chuyển tiền vào tài khoản
+      người dùng khi được duyệt.
+* **Giám sát & Rủi ro (System Monitoring):**
+    * **(Nâng cao)** Giám sát giao dịch: Tự động "gắn cờ" (flag) các giao dịch bất thường (VD: số tiền lớn) và đưa vào
+      hàng đợi `PENDING_REVIEW`.
+    * **(Nâng cao)** Review thủ công: Admin review và (Duyệt / Từ chối) các giao dịch bị gắn cờ.
+    * Truy vết (Audit Log): Xem log ghi lại toàn bộ các hành động nhạy cảm của Admin (ai đã duyệt vay, khi nào, ai đã
+      khóa user).
 
-**Kỹ thuật:**
+### ⚙️ Hệ thống & Kỹ thuật (Backend & System)
 
-* `@Transactional` đảm bảo toàn vẹn dữ liệu
-* `@Async` gửi OTP qua thread riêng
-
----
-
-### 💰 3. **Loan Service**
-
-Quản lý khoản vay và lịch trả nợ.
-
-**Chức năng:**
-
-* Đăng ký vay (số tiền, thời hạn)
-* Tính lãi suất tự động
-* Admin duyệt khoản vay
-* Sinh lịch trả nợ tự động
-* Cảnh báo quá hạn (qua mail)
-
-**Entity:**
-
-```
-Loan(id, user_id, amount, interest_rate, duration_months, status)
-LoanPayment(id, loan_id, payment_date, amount, status)
-```
-
-**Scheduler:**
-Chạy mỗi ngày để kiểm tra khoản vay đến hạn và gửi cảnh báo.
-
----
-
-### 🧾 4. **Payment Gateway**
-
-Cổng thanh toán mô phỏng trung gian (giống VNPay / Momo).
-
-**Chức năng:**
-
-* Merchant đăng ký API key
-* Gửi yêu cầu thanh toán
-* Ký và xác thực bằng HMAC-SHA256
-* Callback lại merchant khi giao dịch hoàn tất
-* Retry khi merchant chưa phản hồi
-
-**Entity:**
-
-```
-Merchant(id, name, api_key, secret_key, callback_url)
-PaymentRequest(id, merchant_id, order_id, amount, status, signature)
-```
+* **Tác vụ Tự động (Scheduled Jobs/Cron):**
+    * Job-01/02: Tự động dọn dẹp dữ liệu rác (OTP, thông báo cũ).
+    * Job-03: Tự động gửi email nhắc nợ khi đến hạn.
+    * **(Nâng cao)** Job-04: Tự động quét và cập nhật trạng thái Nợ Quá Hạn (OVERDUE) cho các khoản vay (sử dụng Stored
+      Procedure).
+    * **(Nâng cao)** Job-05: Tự động tính và cộng lãi tiết kiệm định kỳ hàng tháng (sử dụng Cursor và Transaction).
+* **Kỹ thuật Nâng cao (Advanced Tech):**
+    * Thông báo Real-time (WebSocket): Cấu hình server WebSocket (STOMP) để đẩy thông báo (VD: "Bạn vừa nhận được tiền")
+      ngay lập tức về client.
+    * Tập trung vào Database: Sử dụng mạnh mẽ Stored Procedures và Transactions để đảm bảo tính toàn vẹn dữ liệu (ACID)
+      cho mọi nghiệp vụ tài chính.
 
 ---
 
-### 🚨 5. **Fraud Detection**
+## ⚙️ Công nghệ sử dụng (Technology Stack)
 
-Phát hiện giao dịch gian lận dựa trên rule engine đơn giản.
-
-**Chức năng:**
-
-* Phân tích log giao dịch
-* Rule-based detection:
-
-  * Giao dịch > 100 triệu trong 5 phút → cảnh báo
-  * Nhiều giao dịch thất bại liên tiếp → nghi ngờ
-* Ghi log gian lận
-* Gửi cảnh báo admin qua email
-
-**Entity:**
-
-```
-FraudLog(id, transaction_id, reason, created_at)
-```
-
-**Kỹ thuật:**
-
-* `@Scheduled` quét dữ liệu định kỳ
-* Có thể mở rộng bằng rule engine hoặc machine learning
+| Hạng mục               | Công nghệ                                                             |
+|:-----------------------|:----------------------------------------------------------------------|
+| **Backend Core**       | Spring Boot 3.5.6, Spring Security (JWT), Spring Data JPA (Hibernate) |
+| **Database**           | Oracle Database (RDBMS)                                               |
+| **Async & Scheduling** | Spring Mail, `@Async`, Spring Scheduler (Cron Jobs)                   |
+| **API & Development**  | Lombok, Swagger / OpenAPI 3                                           |
+| **Testing**            | JUnit 5, Mockito                                                      |
+| **Code Quality**       | JaCoCo (Code Coverage), Checkstyle (Google Java Convention)           |
+| **Static Analysis**    | SonarQube                                                             |
+| **Security Scanning**  | GitLeaks                                                              |
+| **DevOps (CI/CD)**     | GitHub Actions, Docker, Docker Compose                                |
 
 ---
 
-## 🧮 Mô hình cơ sở dữ liệu (ERD - tóm tắt)
+## 🧮 Mô hình Cơ sở dữ liệu (Database Schema)
 
-```
-User (1)───(N) Account
-Account (1)───(N) Transaction
-User (1)───(N) Loan ───(N) LoanPayment
-Merchant (1)───(N) PaymentRequest
-Transaction (1)───(N) FraudLog
-```
+[Sơ đồ ERD của cơ sở dữ liệu]
+*(Hình ảnh mô hình Quan hệ Thực thể (ERD) sẽ được đặt tại đây)*
 
 ---
 
-## 🔐 Phân quyền người dùng
+## 🔐 Phân quyền người dùng (Roles & Permissions)
 
-| Role       | Quyền hạn                                 |
-| ---------- | ----------------------------------------- |
-| `ADMIN`    | Quản lý user, duyệt vay, xem log gian lận |
-| `CUSTOMER` | Quản lý tài khoản, giao dịch, vay vốn     |
-| `MERCHANT` | Gọi API thanh toán                        |
-| `ANALYST`  | Xem thống kê gian lận                     |
+Hệ thống định nghĩa các vai trò (roles) sau để kiểm soát truy cập:
 
----
-
-## 📂 Cấu trúc thư mục
-
-```
-src/
- └── main/java/com/example/banking/
-     ├── account/
-     ├── transaction/
-     ├── loan/
-     ├── payment/
-     ├── fraud/
-     ├── common/
-     ├── config/
-     └── security/
-```
+| Role         | Quyền hạn (Permissions)                                                 |
+|:-------------|:------------------------------------------------------------------------|
+| **ADMIN**    | Quản lý user, duyệt/từ chối khoản vay, giải ngân, xem audit log.        |
+| **CUSTOMER** | Giao dịch (chuyển tiền, tiết kiệm), quản lý tài khoản, đăng ký vay vốn. |
+| **ANALYST**  | Theo dõi log, giám sát giao dịch và báo cáo gian lận (read-only).       |
+| **SYSTEM**   | Vai trò nội bộ, thực hiện các tác vụ tự động (scheduler, notification). |
 
 ---
 
-## 🧪 Kiểm thử & Báo cáo
+## 🚀 Cài đặt & Chạy dự án (Getting Started)
 
-### ✅ Unit Test
+### Yêu cầu tiên quyết (Prerequisites)
 
-* Viết bằng **JUnit 5** và **Mockito**
-* Kiểm thử các service, controller, repository
+* [Java JDK (phiên bản 21+)]()
+* [Apache Maven]()
+* [Docker](https://www.docker.com/get-started) và [Docker Compose]()
+* (Tùy chọn) [SonarQube](https://www.sonarqube.org/downloads/) (để chạy phân tích cục bộ)
+* (Tùy chọn) [GitLeaks](https://github.com/gitleaks/gitleaks) (để quét bảo mật cục bộ)
 
-### 📊 JaCoCo Report
+### Hướng dẫn cài đặt
 
-* Tự động tạo báo cáo độ bao phủ kiểm thử
-* Mục tiêu: **> 80% coverage**
+1. **Clone repository:**
+   ```bash
+   git clone [https://github.com/QuyDang1108/mini-banking-system.git](https://github.com/QuyDang1108/mini-banking-system.git)
+   cd mini-banking-system
+   ```
+
+2. **Chạy bằng Docker Compose:**
+   Đây là cách nhanh nhất để khởi chạy toàn bộ hệ thống, bao gồm ứng dụng Spring Boot và Oracle Database đã được cấu
+   hình sẵn.
+
+   ```bash
+   docker-compose up -d --build
+   ```
+
+   Ứng dụng sẽ chạy tại `http://localhost:8080`.
+
+---
+
+## 📚 Tài liệu API (API Documentation)
+
+Sau khi khởi chạy ứng dụng, tài liệu API (Swagger UI) sẽ có sẵn tại:
+
+http://localhost:8080/swagger-ui.html
+
+---
+
+## 🧪 Kiểm thử & Chất lượng mã (Testing & Code Quality)
+
+Dự án được cấu hình với nhiều công cụ để đảm bảo chất lượng và bảo mật.
+
+### 🧪 Unit Test & Coverage (JaCoCo)
+
+Thực thi Unit Test và tạo báo cáo độ bao phủ mã (Code Coverage).
+**Mục tiêu:** Đảm bảo độ bao phủ > **70%** để duy trì chất lượng mã ổn định.
 
 ```bash
+# Chạy Unit Tests
 mvn test
+
+# Tạo báo cáo JaCoCo
 mvn jacoco:report
 ```
 
-Kết quả: `target/site/jacoco/index.html`
+Báo cáo sẽ được tạo tại:
+`target/site/jacoco/index.html`
 
 ---
 
-## 🧰 Checkstyle & SonarQube
+### 💅 Code Style (Checkstyle)
 
-### ✅ Checkstyle
-
-Áp dụng **Google Java Coding Convention** qua file cấu hình:
-
-```
-config/checkstyle/checkstyle.xml
-```
-
-Kiểm tra:
+Dự án tuân thủ **Google Java Coding Convention**, được định nghĩa tại tệp:
+`config/checkstyle/checkstyle.xml`
 
 ```bash
-mvn checkstyle:check
+# Kiểm tra code style
+mvn checkstyle:checkstyle
 ```
 
-### 🧠 SonarQube
+Công cụ Checkstyle đảm bảo mã nguồn tuân theo quy tắc định dạng, giúp dễ đọc và nhất quán.
 
-Phân tích mã và bảo mật:
+---
+
+### 🧩 Phân tích Tĩnh (SonarQube)
+
+Phân tích mã để phát hiện:
+
+* **Bugs** (lỗi logic)
+* **Vulnerabilities** (lỗ hổng bảo mật)
+* **Code Smells** (mã khó bảo trì)
 
 ```bash
+# Yêu cầu SonarQube server đang chạy tại http://localhost:9000
 mvn sonar:sonar \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=<your-token>
+  -Dsonar.login=<your-sonarqube-token>
 ```
+
+Kết quả sẽ được hiển thị trên **SonarQube Dashboard**, bao gồm các chỉ số về chất lượng, độ bao phủ và độ phức tạp.
 
 ---
 
-## 🔒 GitLeaks
+### 🔒 Quét Bảo mật (GitLeaks)
 
-Dùng để phát hiện các bí mật (API key, token) bị commit nhầm.
+Công cụ **GitLeaks** được sử dụng để phát hiện và ngăn chặn rò rỉ thông tin nhạy cảm (như API keys, credentials).
 
 ```bash
+# Quét toàn bộ repository
 gitleaks detect --source .
 ```
 
----
-
-## 🧱 CI/CD Pipeline – GitHub Actions
-
-**File:** `.github/workflows/ci.yml`
-
-Pipeline bao gồm các bước:
-
-1. Kiểm tra cú pháp (`checkstyle`)
-2. Chạy unit test (`mvn test`)
-3. Tạo báo cáo JaCoCo
-4. Phân tích SonarQube
-5. Quét bảo mật với GitLeaks
-6. Đóng gói Docker image
-7. Triển khai (deployment) đến môi trường staging
+Báo cáo sẽ hiển thị các phát hiện tiềm ẩn, giúp đảm bảo an toàn trước khi mã được đẩy lên repository công khai.
 
 ---
 
-## 🐳 Docker & Triển khai
+### 🧱 CI/CD Pipeline (GitHub Actions)
 
-### 1️⃣ Build image
+Hệ thống CI/CD được tự động hóa thông qua **GitHub Actions**, định nghĩa tại:
+`.github/workflows/ci.yml`
 
-```bash
-docker build -t mini-banking-system .
+Pipeline sẽ **tự động kích hoạt** khi có **push** hoặc **pull request**, bao gồm các giai đoạn sau:
+
+| Giai đoạn              | Mô tả                                                   |
+|------------------------|---------------------------------------------------------|
+| **Checkstyle**         | Kiểm tra code style và định dạng theo Google Convention |
+| **Build & Test**       | Biên dịch mã và chạy toàn bộ Unit Tests                 |
+| **JaCoCo Report**      | Sinh báo cáo độ bao phủ mã                              |
+| **SonarQube Analysis** | Phân tích chất lượng và bảo mật mã nguồn                |
+| **GitLeaks Scan**      | Quét phát hiện thông tin nhạy cảm                       |
+| **Docker Build**       | Đóng gói ứng dụng thành container để triển khai         |
+
+---
+
+### 📂 Cấu trúc Thư mục (Project Structure)
+
 ```
-
-### 2️⃣ Chạy container
-
-```bash
-docker run -d -p 8080:8080 \
-  -e SPRING_PROFILES_ACTIVE=prod \
-  --name banking-app mini-banking-system
-```
-
-### 3️⃣ Docker Compose (tuỳ chọn)
-
-```yaml
-version: "3.9"
-services:
-  oracle:
-    image: gvenzl/oracle-xe
-    environment:
-      - ORACLE_PASSWORD=oracle
-    ports:
-      - "1521:1521"
-
-  app:
-    build: .
-    depends_on:
-      - oracle
-    ports:
-      - "8080:8080"
+src/
+└── main/java/com/us/minibankingproject/
+    ├── configuration/   → Cấu hình hệ thống (Security, Swagger, Mail, Async)
+    ├── controllers/     → REST API Endpoints
+    ├── dtos/            → Data Transfer Objects
+    ├── entities/        → JPA Entities (bảng cơ sở dữ liệu)
+    ├── enums/           → Các hằng số, vai trò, trạng thái
+    ├── exceptions/      → Xử lý ngoại lệ toàn cục
+    ├── repositories/    → Spring Data JPA repositories
+    ├── services/        → Logic nghiệp vụ
+    │    └── impl/       → Triển khai cụ thể của service
+    └── utils/           → Các lớp tiện ích (Utility classes)
 ```
 
 ---
 
-## 📚 Swagger API Docs
-
-Sau khi chạy ứng dụng:
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
----
-
-## 🗓️ Roadmap phát triển
-
-| Giai đoạn | Mục tiêu                          |
-| --------- | --------------------------------- |
-| ✅ Phase 1 | Account + Transaction             |
-| ✅ Phase 2 | Loan Management                   |
-| ✅ Phase 3 | Payment Gateway                   |
-| ✅ Phase 4 | Fraud Detection                   |
-| ✅ Phase 5 | CI/CD + Docker                    |
-| ✅ Phase 6 | SonarQube + Checkstyle + GitLeaks |
-| ⏳ Phase 7 | Dashboard & báo cáo (BI layer)    |
-| ⏳ Phase 8 | Frontend (React / Angular)        |
-
----
-
-## 👨‍💻 Tác giả
+### 👨‍💻 Tác giả
 
 **Đặng Quý (QuyDang1108)**
-📧 Email: [dangquyy1108@gmail.com](mailto:dangquyy1108@gmail.com)
-🔗 GitHub: [https://github.com/QuyDang1108](https://github.com/QuyDang1108)
+📧 Email: *[Cập nhật]*
+🔗 GitHub: [github.com/QuyDang1108](https://github.com/QuyDang1108)
 
 ---
 
-## 📄 Giấy phép
+### 📄 Giấy phép (License)
 
-Phát hành theo **MIT License** — được phép sử dụng và chỉnh sửa cho mục đích học tập hoặc thương mại.
+Dự án này được phát hành theo **Giấy phép MIT (MIT License)**.
+Vui lòng xem tệp [LICENSE](LICENSE) để biết thêm chi tiết.
+
+---
