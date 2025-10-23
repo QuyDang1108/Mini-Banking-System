@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/enterprise:21.3.0.0
+    container_name: oracle-db
+    environment:
+      - ORACLE_SID=ORCLCDB
+      - ORACLE_PDB=banking_pdb
+      - ORACLE_PWD=Dangquy1108@
+      - ORACLE_CHARACTERSET=AL32UTF8
+      - ENABLE_ARCHIVELOG=false
+      - LISTENER_PORT=1521
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - ./data:/opt/oracle/oradata
+      - ./init:/opt/oracle/scripts/setup
+    restart: unless-stopped
